@@ -1,0 +1,26 @@
+the task statement leaves a few questions unanswered. in order to get a
+well-defined program, i've made a few assumptions.
+
+ - "words" should be treated modulo things like punctuation and
+   capitalization. so "QUEEN" and "queen" and "Queen!" should all be
+   treated as the same word appearing in different contexts.
+
+   words that are hyphenated, like "jury-box", are perfectly good words by
+   themselves. so that word appears once in the Alice text and doesn't
+   increase the counts for the words "jury" or "box"
+
+   non-sense words that might not appear in a dictionary are fine words for
+   this question.
+
+ - "alice in wonderland" refers to the actual text of the book, not the
+   metatext of a particular version, such as copyright statements, project
+   gutenburg text, tables of contents, or chapter headings. so that means
+   that any operations on "alice in wonderland" shouldn't take into account
+   the
+
+ - it's not clear if the version of the text is specifically the project
+   gutenburg edition, or even more specifically the PDF of the project
+   gutenburg edition. the latter introduces some new complications, because
+   you have to use some tool to extract the strings from the PDF as strings
+   in data before doing anything with it. i'm actually curious to see how
+   either choice
