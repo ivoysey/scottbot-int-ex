@@ -1,0 +1,5 @@
+wiki.python.org
+nltk book
+
+https://wiki.python.org/moin/SimplePrograms
+https://docs.python.org/3/library/argparse.html
