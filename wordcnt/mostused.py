@@ -7,6 +7,11 @@ import re
                    ## you get the NLTK stuff worked out
 
 
+## this function takes a word and gives a canonical syntax for it--so
+## removes punctionation, normalizes case, etc.
+##
+## TODO: looking at the contents of the keyset this generates this is
+## probably harder than i think; i bet nltk has a function to do it.
 def clean (s):
     return s.lower()
 
