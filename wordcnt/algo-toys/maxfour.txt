@@ -1,0 +1,20 @@
+options for finding the biggest four things in an unordered collection.
+
+1) sort it by the thing you want to maximize and pick the top (bottom) four
+   elements. O(n lg n), but good if you want to a lot of other queries
+   into the same thing. also easy to implement and easy to read and see
+   that it's correct.
+
+2) write a thing to find the kth element and call it four times. this is
+   expected linear with a slightly fancy algorithm that's not trival to
+   write or understand. also that means you need to call the same thing
+   four times, so it's O(4n).
+
+3) write a fairly delicate thing that gets the kth (or 4 specifically)
+   biggest things in exactly one linear pass. getting the 4 biggest things
+   isn't the full SELECT problem, it's a special case where you're always
+   getting the maximum (prefix). so you don't need to do QuickSelect, but
+   it gets a little gross to manage all the indexing and stuff.
+
+4) write a max-finder and lazy-remove things so that you get subsequent
+   maxes. hacky but easier to understand / write than (2) probably.
