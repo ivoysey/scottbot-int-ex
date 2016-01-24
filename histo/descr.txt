@@ -1,9 +1,17 @@
-(from email)
+(from email, whitespace added)
 
-1. Build a website that allows users to register with their name, password,
-and an age. When a user logs in, show them a bar chart histogram of all the
-ages of everyone who has registered. For example, if three people have
-registered, aged 30, 38, and 30, the bar chart should show two bars; one of
-30 at height 2, and one of 38 at height 1. Highlight the bar of the logged
-in user in a different color than any of the other bars. (Hint: d3.js and
+Build a website that allows users to register with their name, password,
+and an age.
+
+When a user logs in, show them a bar chart histogram of all the ages of
+everyone who has registered.
+
+For example, if three people have registered, aged 30, 38, and 30, the bar
+chart should show two bars; one of 30 at height 2, and one of 38 at height
+1.
+
+Highlight the bar of the logged in user in a different color than any of
+the other bars.
+
+(Hint: d3.js and
 heroku might work here, if you need ideas for free utilities and hosting.)

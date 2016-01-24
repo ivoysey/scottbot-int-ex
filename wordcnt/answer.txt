@@ -9,11 +9,17 @@ well-defined program, i've made a few assumptions.
    themselves. so that word appears once in the Alice text and doesn't
    increase the counts for the words "jury" or "box"
 
-   non-sense words that might not appear in a dictionary are fine words for
-   this question.
+   words that have more than one hyphen glyph between them are different
+   words, because it's the standard ASCII-ification of em and en dashes. so
+   "he gamboled---that is to say walked--in" produces eight distinct words
+   not six.
+
+   non-sense words to write down sounds people make that maybe aren't
+   language, like "PLEUGH!" for spitting, but might not appear in a
+   dictionary are fine words for this question.
 
  - "alice in wonderland" refers to the actual text of the book, not the
-   metatext of a particular version, such as copyright statements, project
+   metatext of a particular printing, such as copyright statements, project
    gutenburg text, tables of contents, or chapter headings. so that means
    that any operations on "alice in wonderland" shouldn't take into account
    the
@@ -22,5 +28,20 @@ well-defined program, i've made a few assumptions.
    gutenburg edition, or even more specifically the PDF of the project
    gutenburg edition. the latter introduces some new complications, because
    you have to use some tool to extract the strings from the PDF as strings
-   in data before doing anything with it. i'm actually curious to see how
-   either choice
+   in data before doing anything with it.
+
+   i'm actually curious to see how either choice effects the set of words
+   you get out. my guess is that it won't effect the four that appear the
+   largest number of times, but it will change the lower-frequency ones
+   somewhat.
+
+   the tool to convert PDF to txt is also an interesting choice. pdftotext
+   is the standard unix tool; languages may have built-in ones that provide
+   a more portable program
+
+ - there's a little bit of non-determinism in the words that you output. it
+   might be the case that the 20 most used words are all used exactly 5
+   times, for example, so if you're computing the four most used words
+   which ones do you pick? this is the maximal-but-not-maximum problem.
+
+   in this case, i give no guarantees
