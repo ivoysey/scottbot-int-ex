@@ -61,15 +61,16 @@ else:
     # all the interesting data is in the dict now, so free this up
     f.close()
 
+    ## TODO: finish using this to debug the string parsing stuff
     # for k, v in d.items():
     #     print k, '|->', v
     # print 'unique words: ', len(d)
 
-    #travese the dictionary to find the k most frequently used words, where
-    #k is taken on the command line but defaults to four.
+    # travese the dictionary to find the k most frequently used words, where
+    # k is taken on the command line but defaults to four.
 
     # sort the dictionary by value in the standard way
     od = OrderedDict(sorted(d.items(), reverse=True, key=lambda t: t[1]))
-    print "the four most used words are: "
+    print "the four most-used words are: "
     for k , v in (od.items())[:k]:
-        print '\t"' + k + '", which was used ' + (str(v)) + ' times'
+        print '\t"' + k + '", which was used ' + (str(v)) + ' time' + ("" if v == 1 else "s")
