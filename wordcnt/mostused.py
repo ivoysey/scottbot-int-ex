@@ -10,9 +10,6 @@ from collections import OrderedDict
 
 ## this function takes a word and gives a canonical syntax for it--so
 ## removes punctionation, normalizes case, etc.
-##
-## TODO: looking at the contents of the keyset this generates this is
-## probably harder than i think; i bet nltk has a function to do it.
 def clean (s):
     ## ignore strings containing at least one digit or URL artifacts
     digits = re.compile('.*\d+.*|http')
@@ -24,7 +21,34 @@ def clean (s):
         s = s.lower()
         return s
 
-## todo: this is the number of words i want to find; take it as an
+def incr (word, d):
+    if word in d:
+        d[word] += 1
+    else:
+        d[word] = 1
+
+# sort a list of pairs in decreasing order by the second component
+def sortpl (l):
+    return sorted(l, reverse=True, key=lambda x : x[1])
+
+def biggest (k , items):
+    ## abort if the query makes no sense
+    if k > len(items):
+        raise Exception('trying to compute the ' + str(k) +
+                        'most used words, but there are only ' + str(len(d)) +
+                        ' unique words in the corpus')
+
+    ## otherwise, grab the first k entries, then traverse the rest of the
+    ## items updating as we go to find the biggest k
+    so_far = sortpl(items[:k])
+
+    for elem in items[k:]:
+        so_far.append(elem)
+        so_far = (sortpl(so_far))[:k]
+
+    return so_far
+
+## TODO: this is the number of words i want to find; take it as an
 ## argument, but it's up here so i don't hard-code it later.
 k = 4
 
@@ -43,7 +67,8 @@ else:
     # dictionary counting the number of appearances
     d = dict()
     for line in f:
-        ## get rid of ASCII em and en dashes
+        ## get rid of ASCII em and en dashes before breaking into words, so
+        ## each half is its own word
         line = (line.replace("---", " ")).replace("--", " ")
 
         for word in line.split():
@@ -53,10 +78,7 @@ else:
                 continue
             else:
                 # add or update words that do parse
-                if clean_word in d:
-                    d[clean_word] += 1
-                else:
-                    d[clean_word] = 1
+                incr(clean_word,d)
 
     # all the interesting data is in the dict now, so free this up
     f.close()
@@ -69,8 +91,8 @@ else:
     # travese the dictionary to find the k most frequently used words, where
     # k is taken on the command line but defaults to four.
 
-    # sort the dictionary by value in the standard way
-    od = OrderedDict(sorted(d.items(), reverse=True, key=lambda t: t[1]))
     print "the four most-used words are: "
-    for k , v in (od.items())[:k]:
-        print '\t"' + k + '", which was used ' + (str(v)) + ' time' + ("" if v == 1 else "s")
+    for key , val in biggest(k,d.items()):
+        print ('\t"' + key + '", which was used '
+               + (str(val))
+               + ' time' + ("" if val == 1 else "s"))
