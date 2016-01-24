@@ -87,14 +87,14 @@ fun maxk k (l : int list) : int list =
       let
         val (first_k,rest) = (List.take(l,k), List.drop(l,k))
       in
-        foldr (updatek k) first_k rest
+        sort ic (foldr (updatek k) first_k rest)
       end
 
 (* run maxk on all reasonable k up to n on all permutations of lists of the
    numbers 0..n *)
 fun test n =
     let
-      permutations (List.tabulate(n, fn x => x))
+      val perms = permutations (List.tabulate(n, fn x => x))
     in
-      List.tabulate (9, fn x => uniqc (op=) (map (maxk x) test))
+      List.tabulate (n+1, fn x => uniqc (op=) (map (maxk x) perms))
     end

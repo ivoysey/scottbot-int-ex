@@ -1,3 +1,5 @@
+## this approach is fundimentally broken; see the SML code.
+
 import collections
 
 def maxk (c , k):
