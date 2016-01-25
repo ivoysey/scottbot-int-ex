@@ -2,6 +2,7 @@ import os
 import re
 import string
 import argparse
+import itertools
 
 # takes a word and gives a canonical syntax for it--so removes
 # punctionation, normalizes case, etc.
@@ -33,6 +34,18 @@ def noun (string):
     #TODO: use nltk here
     return string
 
+# increment a value in a dictionary or set it to 1 if it's not there.
+def incr (word, d):
+    if word in d:
+        d[word] += 1
+    else:
+        d[word] = 1
+
+# sort a list of pairs in decreasing order by the second component
+def sortpl (l):
+    return sorted(l, reverse=True, key=lambda x : x[1])
+
+
 # adds basic arguments to an argparser
 def baseargs (p):
     p.add_argument("filename",
@@ -54,11 +67,11 @@ def baseargs (p):
                     action="store_true",
                     default=False)
 
-# this is https://gist.github.com/jmcarp/7105045. the standard docs for
-# how to use pdfminer give an example of how to use it, but it's slightly
-# busted. this is what the internet seems to have settled on for how to
-# interpret that example into code that actually does something.
-
+# this is almost exactly https://gist.github.com/jmcarp/7105045. the
+# standard docs for how to use pdfminer give an example of how to use it,
+# but it's kind of busted. this is what the internet seems to have settled
+# on for how to interpret that example into code that actually does
+# something.
 def pdf_to_text(pdfname):
     from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
     from pdfminer.pdfpage import PDFPage
@@ -89,3 +102,32 @@ def pdf_to_text(pdfname):
     sio.close()
 
     return text
+
+def opentext (ispdf , isguten , fname):
+    # get the text of the corpus from either a plain text or PDF file
+    if ispdf:
+        try: ## todo: make this a type thing?
+            import pdfminer
+        except ImportError:
+            print 'reading from a PDF file requires that you install pdfminer'
+            exit(1)
+        corpus = (pdf_to_text(fname)).split("\n")
+    else:
+        corpus = open(fname, 'r')
+
+    # optionally ignore project gutenberg headers if you can find them
+    if isguten:
+        header = re.compile('START\s+OF\s+THIS\s+PROJECT\s+GUTENBERG\s+EBOOK')
+        footer = re.compile('END\s+OF\s+THIS\s+PROJECT\s+GUTENBERG\s+EBOOK')
+
+        drop = itertools.dropwhile(lambda x: not(bool(header.search(x))), corpus)
+        take = itertools.takewhile(lambda x: not(bool(footer.search(x))), drop)
+
+        # skip the first line, which still has the header in it. there's
+        # also a footer above the footer in some older PG texts, but that's
+        # hard to find so we don't try to
+        take.next()
+
+        return take
+    else:
+        return corpus

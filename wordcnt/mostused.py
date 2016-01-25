@@ -2,18 +2,7 @@ import re
 import argparse
 import itertools
 
-from util import clean , fexists , baseargs
-
-# increment a value in a dictionary or set it to 1 if it's not there.
-def incr (word, d):
-    if word in d:
-        d[word] += 1
-    else:
-        d[word] = 1
-
-# sort a list of pairs in decreasing order by the second component
-def sortpl (l):
-    return sorted(l, reverse=True, key=lambda x : x[1])
+from util import clean , baseargs , incr , sortpl , opentext
 
 # computes the k most-occuring pairs in a list of pairs, where the second
 # component is a number. assumes that 0 <= k <= |items|.n
@@ -48,33 +37,7 @@ parser.add_argument("-n" , "--number",
                     type=nat,
                     default=4)
 args = parser.parse_args()
-
-# get the text of the corpus from either a plain text or PDF file
-if args.pdf:
-    try:
-        from util import pdf_to_text
-    except ImportError:
-        print 'reading from a PDF file requires that you install pdfminer'
-        exit(1)
-    corpus = (pdf_to_text(args.filename)).split("\n")
-else:
-    corpus = open(args.filename, 'r')
-
-# optionally ignore project gutenberg headers if you can find them
-if args.gutenberg:
-    header = re.compile('START\s+OF\s+THIS\s+PROJECT\s+GUTENBERG\s+EBOOK')
-    footer = re.compile('END\s+OF\s+THIS\s+PROJECT\s+GUTENBERG\s+EBOOK')
-
-    drop = itertools.dropwhile(lambda x: not(bool(header.search(x))), corpus)
-    take = itertools.takewhile(lambda x: not(bool(footer.search(x))), drop)
-
-    ## skip the first line, which still has the header in it
-    take.next()
-
-    txtsrc = take
-else:
-    txtsrc = corpus
-
+txtsrc = opentext (args.pdf , args.gutenberg , args.filename)
 
 # traverse the whole file, adding canonical forms of valid words into a
 # dictionary counting the number of appearances.
@@ -94,8 +57,8 @@ for line in txtsrc:
 
 # if we're not reading from a PDF, we have to close the file handle once
 # we're done counting all the words
-if args.pdf == False:
-    corpus.close()
+# if args.pdf == False:
+#     txtsrc.close()
 
 # abort if the query makes no sense. note that we can't check this stuff
 # until we build the dictionary because it depends on the number of unique

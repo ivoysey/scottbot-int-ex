@@ -1,7 +1,7 @@
 import string
 import argparse
 
-from util import clean , fexists , noun , baseargs
+from util import clean , noun , baseargs
 
 ## describe and parse arguments from the command line
 parser = argparse.ArgumentParser(description="Count the number of times a "
