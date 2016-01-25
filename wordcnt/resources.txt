@@ -3,3 +3,5 @@ nltk book
 
 https://wiki.python.org/moin/SimplePrograms
 https://docs.python.org/3/library/argparse.html
+https://docs.python.org/
+http://www.unixuser.org/~euske/python/pdfminer/programming.html
