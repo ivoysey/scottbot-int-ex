@@ -70,7 +70,7 @@ args = parser.parse_args()
 # get the text of the corpus from either a plain text or PDF file
 if args.pdf:
     try:
-        from pdfxtract import pdf_to_text
+        from util import pdf_to_text
     except ImportError:
         print 'reading from a PDF file requires that you install pdfminer'
         exit(1)

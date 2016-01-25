@@ -1,7 +1,7 @@
 import string
 import argparse
 
-from util import clean , fexists
+from util import clean , fexists , noun
 
 ## describe and parse arguments from the command line
 parser = argparse.ArgumentParser(description="Count the number of times a "
@@ -11,6 +11,9 @@ parser.add_argument("filename",
                     help="path to the file with the corpus to analyze. " +
                          "by default, assumed to be plain text.",
                     type=fexists)
+parser.add_argument("noun",
+                    help="the noun for which to search",
+                    type=noun)
 parser.add_argument("-p" , "--pdf",
                     help="treat the file as PDF rather than plain text. the " +
                          "results may be different depending on the quality " +
