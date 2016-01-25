@@ -67,6 +67,10 @@ def baseargs (p):
                          "option if we get a good parse. default is off.",
                     action="store_true",
                     default=False)
+    p.add_argument("-v", "--verbose",
+                   help="print more human readable output.",
+                   action="store_true",
+                   default=False)
 
 # this is almost exactly https://gist.github.com/jmcarp/7105045. the
 # standard docs for how to use pdfminer give an example of how to use it,
