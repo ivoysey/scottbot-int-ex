@@ -70,13 +70,14 @@ parser.add_argument("-p" , "--pdf",
                          " pdfrw.",
                     action="store_true",
                     default=False)
+
 parser.add_argument("-g", "--gutenberg",
                     help="indicates that the file came from Project Gutenberg"+
                          ", in which case we ignore their header and footer."+
                          " this will only work when combined with the PDF " +
-                         "option if we get a good parse",
+                         "option if we get a good parse. default is off.",
                     action="store_true",
-                    default=True)
+                    default=False)
 args = parser.parse_args()
 
 # get the text of the corpus from either a plain text or PDF file
@@ -98,12 +99,21 @@ if args.gutenberg:
     header = re.compile('START OF THIS PROJECT GUTENBERG EBOOK')
     footer = re.compile('END OF THIS PROJECT GUTENBERG EBOOK')
 
-    drop = itertools.dropwhile(lambda x: header.matches(x),corpus)
+    drop = itertools.dropwhile(lambda x: not(bool(header.search(x))), corpus)
+    take = itertools.takewhile(lambda x: not(bool(footer.search(x))), drop)
+
+    #drop = itertools.dropwhile(lambda x: not (header.search(x)),corpus)
+    #take = itertools.takewhile(lambda x: footer.search(x),drop)
+
+    ## skip the first line, which still has the header in it
+    txtsrc = take
+else:
+    txtsrc = corpus
 
 # traverse the whole file, adding canonical forms of valid words into a
 # dictionary counting the number of appearances.
 d = dict()
-for line in corpus:
+for line in txtsrc:
     # get rid of ASCII em and en dashes
     line = (line.replace("---", " ")).replace("--", " ")
 
@@ -137,9 +147,6 @@ for key , val in biggest(args.number, d.items()):
     print ('\t"' + key + '", which was used '
            + (str(val))
            + ' time' + ("" if val == 1 else "s"))
-
-
-
 
 # TODO: finish using this to debug the string parsing stuff
 # for k, v in d.items():
