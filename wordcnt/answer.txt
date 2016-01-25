@@ -55,3 +55,9 @@ line to swap in different ignore lists or similar.
 it's pretty hard to curate a list of things to ignore; that's a big design
 decision that i'm not sure how i would make and would want to talk to
 people with. really depends on what the tool would be used for. i
+
+apostophies also end up being oddly semantic to figure out if you can
+remove them. so "''tis" should normalize to "'tis" probably because it's a
+front-contraction at the beginning of a nested quote. but "'where's" and
+"i'm" all get non-deterministic fast. instead, we just normalize out all
+apostrophies.

@@ -1,4 +1,5 @@
 import sys
+import os
 import re
 import string
 import argparse
@@ -11,11 +12,16 @@ def clean (s):
     digits = re.compile('.*\d+.*|http')
     if (digits.match(s)):
         return None
-    else :
-        # otherwise, remove punctuation except hyphens and normalize case
-        s = s.translate(None, string.punctuation.replace("-", ""))
-        s = s.lower()
-        return s
+
+    # otherwise, remove punctuation except hyphens
+    s = s.translate(None, re.sub("-", '',string.punctuation))
+
+    # if that was everything, abort
+    if s == "":
+        return None
+
+    # otherwise, return lower case
+    return s.lower()
 
 # increment a value in a dictionary or set it to 1 if it's not there.
 def incr (word, d):
@@ -49,6 +55,13 @@ def nat (string) :
         raise argparse.ArgumentTypeError(msg)
     return value
 
+# check if a name points to an existant file
+def fexists (string):
+    if not (os.path.isfile(string)):
+        msg = "%r is not a valid file" % string
+        raise argparse.ArgumentTypeError(msg)
+    return string
+
 #####################
 
 ## describe and parse arguments from the command line
@@ -56,7 +69,8 @@ parser = argparse.ArgumentParser(description="Count the n most-used words in" +
                                  "a corpus of English text.")
 parser.add_argument("filename",
                     help="path to the file with the corpus to analyze. " +
-                         "by default, assumed to be plain text.")
+                         "by default, assumed to be plain text.",
+                    type=fexists)
 parser.add_argument("-n" , "--number",
                     help="number of most frequently used words to compute. "
                           + "defaults to 4.",
@@ -88,10 +102,7 @@ if args.pdf:
         exit(1)
     corpus = (pdf_to_text(args.filename)).split("\n")
 else:
-    try:
-        corpus = open(args.filename, 'r')
-    except IOError:
-        print 'Please supply a path to a real file'
+    corpus = open(args.filename, 'r')
 
 # optionally ignore project gutenberg headers if you can find them
 if args.gutenberg:
@@ -100,9 +111,6 @@ if args.gutenberg:
 
     drop = itertools.dropwhile(lambda x: not(bool(header.search(x))), corpus)
     take = itertools.takewhile(lambda x: not(bool(footer.search(x))), drop)
-
-    #drop = itertools.dropwhile(lambda x: not (header.search(x)),corpus)
-    #take = itertools.takewhile(lambda x: footer.search(x),drop)
 
     ## skip the first line, which still has the header in it
     take.next()
@@ -128,12 +136,11 @@ for line in txtsrc:
             # add or update words that do parse
             incr(clean_word,d)
 
-# TODO: finish using this to debug the string parsing stuff
-# for k, v in d.items():
-#     print k, '|->', v
-# print 'unique words: ', len(d)
+for k, v in d.items():
+    print k, '|->', v
+print 'unique words: ', len(d)
 
-
+"""
 # if we're not reading from a PDF, we have to close the file handle once
 # we're done counting all the words
 if args.pdf == False:
@@ -155,3 +162,4 @@ for key , val in biggest(args.number, d.items()):
     print ('\t"' + key + '", which was used '
            + (str(val))
            + ' time' + ("" if val == 1 else "s"))
+"""
