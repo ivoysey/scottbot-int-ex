@@ -48,7 +48,7 @@ def sortpl (l):
 
 
 # adds basic arguments to an argparser
-def baseargs (p):
+def baseargs (p, extravtext=""):
     p.add_argument("filename",
                     help="path to the file with the corpus to analyze. " +
                          "by default, assumed to be plain text.",
@@ -68,7 +68,7 @@ def baseargs (p):
                     action="store_true",
                     default=False)
     p.add_argument("-v", "--verbose",
-                   help="print more human readable output.",
+                   help="print more human readable output. " + extravtext,
                    action="store_true",
                    default=False)
 

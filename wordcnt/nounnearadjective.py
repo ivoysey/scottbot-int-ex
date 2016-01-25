@@ -3,6 +3,8 @@ import re
 import argparse
 import signal
 import sys
+import progressbar
+
 from util import clean , baseargs , opentext , ctrlc , incr
 
 # deal with ctrl-c cleanly
@@ -27,7 +29,7 @@ def noun (string):
 parser = argparse.ArgumentParser(description="Count the number of times a "
                                  + "noun appears after an adjective in a "
                                  + "corpus of English text.")
-baseargs(parser)
+baseargs(parser, "nicer output if you have progressbar installed.")
 parser.add_argument("noun", help="the noun for which to search", type=noun)
 args = parser.parse_args()
 
@@ -55,9 +57,6 @@ ctxid = nltk.text.ContextIndex(nltk.word_tokenize(corpus))
 if args.verbose:
     print "created context index"
 
-## todo: make incr take an optional predicate argument that defaults to
-## \_.true
-
 # given a pair (w,t), if t is JJ, increment d[w]
 def incr_if_jj(d, word):
     tagged = nltk.pos_tag([word])
@@ -73,18 +72,17 @@ d = dict()
 # sentinels
 
 # this can take a long time for big texts, just because tagging is hard.
-if args.verbose:
-    sys.stdout.write("tagging contexts")
-    sys.stdout.flush()
 
-for x , y in ctxid.common_contexts([args.noun.lower()]):
-    if args.verbose:
-        sys.stdout.write(".")
-        sys.stdout.flush()
+iterob = ctxid.common_contexts([args.noun.lower()])
+if args.verbose:
+    print "tagging contexts"
+    bar = progressbar.ProgressBar(widgets=[progressbar.Bar(),
+                                       ' (', progressbar.ETA(), ') ',])
+    iterob = bar(iterob)
+
+for x , y in iterob:
     incr_if_jj (d , x)
     incr_if_jj (d , y)
-if args.verbose:
-    print
 
 sum = 0
 for k , v in d.items():
