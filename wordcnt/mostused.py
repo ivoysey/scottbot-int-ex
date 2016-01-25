@@ -8,7 +8,7 @@ import itertools
 # takes a word and gives a canonical syntax for it--so removes
 # punctionation, normalizes case, etc.
 def clean (s):
-    ## ignore strings containing at least one digit or URL artifacts
+    # ignore strings containing at least one digit or URL artifacts
     digits = re.compile('.*\d+.*|http')
     if (digits.match(s)):
         return None
@@ -61,6 +61,8 @@ def fexists (string):
         msg = "%r is not a valid file" % string
         raise argparse.ArgumentTypeError(msg)
     return string
+
+
 
 #####################
 
@@ -136,11 +138,6 @@ for line in txtsrc:
             # add or update words that do parse
             incr(clean_word,d)
 
-for k, v in d.items():
-    print k, '|->', v
-print 'unique words: ', len(d)
-
-"""
 # if we're not reading from a PDF, we have to close the file handle once
 # we're done counting all the words
 if args.pdf == False:
@@ -162,4 +159,3 @@ for key , val in biggest(args.number, d.items()):
     print ('\t"' + key + '", which was used '
            + (str(val))
            + ' time' + ("" if val == 1 else "s"))
-"""
