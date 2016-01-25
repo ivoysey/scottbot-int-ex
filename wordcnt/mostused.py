@@ -116,7 +116,6 @@ else:
 # dictionary counting the number of appearances.
 d = dict()
 for line in txtsrc:
-    print line
     # get rid of ASCII em and en dashes
     line = (line.replace("---", " ")).replace("--", " ")
 
