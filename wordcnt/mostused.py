@@ -1,6 +1,7 @@
 import re
 import argparse
 import itertools
+import signal
 
 from util import clean , baseargs , incr , sortpl , opentext , ctrlc
 
@@ -71,11 +72,15 @@ if args.number > len(d):
                     ' most used words, but there are only ' + str(len(d)) +
                     ' unique words in the corpus')
 
-# otherwise compute and print out the answer
-print ("the " + str(args.number) + " most-used word" +
-       (" is" if args.number == 1 else "s are") +
-       ":")
+# print out the answer, with more or less verbosity
+if args.verbose:
+    print ("the " + str(args.number) + " most-used word" +
+           (" is" if args.number == 1 else "s are") +
+           ":")
+
 for key , val in biggest(args.number, d.items()):
-    print ('\t"' + key + '", which was used '
-           + (str(val))
-           + ' time' + ("" if val == 1 else "s"))
+    print (('\t"' if args.verbose else "") +
+           key +
+           ('", which was used ' if args.verbose else ", ") +
+           (str(val)) +
+           ((' time' + ("" if val == 1 else "s")) if args.verbose else ""))
