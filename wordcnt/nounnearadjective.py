@@ -3,7 +3,6 @@ import re
 import argparse
 import signal
 import sys
-import progressbar
 
 from util import clean , baseargs , opentext , ctrlc , incr
 
@@ -33,9 +32,6 @@ baseargs(parser, "nicer output if you have progressbar installed.")
 parser.add_argument("noun", help="the noun for which to search", type=noun)
 args = parser.parse_args()
 
-## todo: how many times am i actually traversing this in each of the four
-## different arg cases?
-
 txtsrc = opentext (args.pdf, args.gutenberg, args.filename)
 
 # dump the corpus into a string so nltk can tokenize it
@@ -50,58 +46,48 @@ if args.verbose:
 
 # tokenizing and making a context index are fairly cheap; tagging is
 # expensive. we build the index first, then only tag words that are near
-# the target noun, keeping track of those that are adjectives (marked with
-# JJ).
+# the target noun, keeping track of those that are adjectives
 ctxid = nltk.text.ContextIndex(nltk.word_tokenize(corpus))
 
 if args.verbose:
     print "created context index"
 
-# given a pair (w,t), if t is JJ, increment d[w]
-def incr_if_jj(d, word):
-    tagged = nltk.pos_tag([word])
-    if tagged[0][1] == "JJ":
-        incr (tagged[0][0], d)
-
 common = ctxid.common_contexts([args.noun.lower()])
 if args.verbose:
     print "created common contexts"
 
-d = dict()
-# todo: filter out "*START*" , "*END*"? or will nltk treat those like
-# sentinels
-
-# this can take a long time for big texts, just because tagging is hard.
-
+# this can take a long time, i think just because tagging is hard.
 iterob = ctxid.common_contexts([args.noun.lower()])
 if args.verbose:
     print "tagging contexts"
-    bar = progressbar.ProgressBar(widgets=[progressbar.Bar(),
-                                       ' (', progressbar.ETA(), ') ',])
-    iterob = bar(iterob)
+    try:
+        import progressbar
+        bar = progressbar.ProgressBar(widgets=[progressbar.Bar(),
+                                           ' (', progressbar.ETA(), ') ',])
+        iterob = bar(iterob)
+    except ImportError:
+        pass
 
+start = re.compile('START')
+end = re.compile('END')
+
+# given a pair (w,t), if t is JJ, increment d[w]
+def incr_if_jj(d, word):
+    # skip the tags that nltk introduces for position in a context
+    if( not(start.search(word) or end.search(word))):
+        tagged = nltk.pos_tag([word])
+        if tagged[0][1] == "JJ":
+            incr (tagged[0][0], d)
+
+# tag everything and mark down when it's an adjective in a dictionary
+d = dict()
 for x , y in iterob:
     incr_if_jj (d , x)
     incr_if_jj (d , y)
 
-sum = 0
-for k , v in d.items():
-    sum += v
-
+# compute the number of occurances and print it out, with more information
+# if verbose is set
 if args.verbose:
     print d
-    print 'total number of occurances: ' + str(sum)
-else:
-    print sum
-
-
-
-# question says "how often does alice appear on either side of an
-# adjective". i'm going to interpret that to mean "how many times does
-# .. ". the other interpretation is "what percentage of times that a noun
-# appears on either side of an adjective is that noun alice?" which is a
-# different task. maybe write another script to do that, but that thing is
-# going to take a super long time to run. this is bad enough, even only
-# needing to tag some words; to do that you need to tag every single word
-# in the text and then post-process the list. the post-processing is
-# linear; the tagging is not.
+    sys.stdout.write('total number of occurances: ')
+print (sum(d.values()))
