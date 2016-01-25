@@ -95,8 +95,8 @@ else:
 
 # optionally ignore project gutenberg headers if you can find them
 if args.gutenberg:
-    header = re.compile('START OF THIS PROJECT GUTENBERG EBOOK')
-    footer = re.compile('END OF THIS PROJECT GUTENBERG EBOOK')
+    header = re.compile('START\s+OF\s+THIS\s+PROJECT\s+GUTENBERG\s+EBOOK')
+    footer = re.compile('END\s+OF\s+THIS\s+PROJECT\s+GUTENBERG\s+EBOOK')
 
     drop = itertools.dropwhile(lambda x: not(bool(header.search(x))), corpus)
     take = itertools.takewhile(lambda x: not(bool(footer.search(x))), drop)
@@ -105,9 +105,12 @@ if args.gutenberg:
     #take = itertools.takewhile(lambda x: footer.search(x),drop)
 
     ## skip the first line, which still has the header in it
+    take.next()
+
     txtsrc = take
 else:
     txtsrc = corpus
+
 
 # traverse the whole file, adding canonical forms of valid words into a
 # dictionary counting the number of appearances.
@@ -115,7 +118,6 @@ d = dict()
 for line in txtsrc:
     print line
     # get rid of ASCII em and en dashes
-"""
     line = (line.replace("---", " ")).replace("--", " ")
 
     for word in line.split():
@@ -154,4 +156,3 @@ for key , val in biggest(args.number, d.items()):
     print ('\t"' + key + '", which was used '
            + (str(val))
            + ' time' + ("" if val == 1 else "s"))
-"""
