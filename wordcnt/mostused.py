@@ -1,4 +1,3 @@
-# take a file and figure out the four most used words.
 import sys
 import re
 import string
@@ -94,7 +93,7 @@ else:
     except IOError:
         print 'Please supply a path to a real file'
 
-# ignore project gutenberg headers if you can find them
+# optionally ignore project gutenberg headers if you can find them
 if args.gutenberg:
     header = re.compile('START OF THIS PROJECT GUTENBERG EBOOK')
     footer = re.compile('END OF THIS PROJECT GUTENBERG EBOOK')
@@ -114,7 +113,9 @@ else:
 # dictionary counting the number of appearances.
 d = dict()
 for line in txtsrc:
+    print line
     # get rid of ASCII em and en dashes
+"""
     line = (line.replace("---", " ")).replace("--", " ")
 
     for word in line.split():
@@ -126,6 +127,12 @@ for line in txtsrc:
             # add or update words that do parse
             incr(clean_word,d)
 
+# TODO: finish using this to debug the string parsing stuff
+# for k, v in d.items():
+#     print k, '|->', v
+# print 'unique words: ', len(d)
+
+
 # if we're not reading from a PDF, we have to close the file handle once
 # we're done counting all the words
 if args.pdf == False:
@@ -136,7 +143,7 @@ if args.pdf == False:
 # words.
 if args.number > len(d):
     raise Exception('trying to compute the ' + str(args.number) +
-                    'most used words, but there are only ' + str(len(d)) +
+                    ' most used words, but there are only ' + str(len(d)) +
                     ' unique words in the corpus')
 
 # otherwise compute and print out the answer
@@ -147,8 +154,4 @@ for key , val in biggest(args.number, d.items()):
     print ('\t"' + key + '", which was used '
            + (str(val))
            + ' time' + ("" if val == 1 else "s"))
-
-# TODO: finish using this to debug the string parsing stuff
-# for k, v in d.items():
-#     print k, '|->', v
-# print 'unique words: ', len(d)
+"""

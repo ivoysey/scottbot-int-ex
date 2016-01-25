@@ -45,3 +45,13 @@ well-defined program, i've made a few assumptions.
    which ones do you pick? this is the maximal-but-not-maximum problem.
 
    in this case, i give no guarantees
+
+
+looking at the results, for alice, you get stuff like "the", "and", "to"
+and "a". it' be easy programmatically to remove a list of words from the
+results to get only "interesting words" and take something on the command
+line to swap in different ignore lists or similar.
+
+it's pretty hard to curate a list of things to ignore; that's a big design
+decision that i'm not sure how i would make and would want to talk to
+people with. really depends on what the tool would be used for. i
