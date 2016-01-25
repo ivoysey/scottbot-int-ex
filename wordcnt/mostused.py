@@ -56,13 +56,13 @@ for line in txtsrc:
             incr(clean_word,d)
 
 # if we're not reading from a PDF, we have to close the file handle once
-# we're done counting all the words
-# if args.pdf == False:
-#     txtsrc.close()
+# we're done counting all the words. the other three settings close
+# themselves.
+if not (args.pdf or args.gutenberg):
+    txtsrc.close()
 
-# abort if the query makes no sense. note that we can't check this stuff
-# until we build the dictionary because it depends on the number of unique
-# words.
+# abort if the query makes no sense. note that we can't check this until we
+# build the dictionary: it depends on the number of unique words.
 if args.number > len(d):
     raise Exception('trying to compute the ' + str(args.number) +
                     ' most used words, but there are only ' + str(len(d)) +
