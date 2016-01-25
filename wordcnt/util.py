@@ -1,9 +1,7 @@
-import sys
 import os
 import re
 import string
 import argparse
-import itertools
 
 # takes a word and gives a canonical syntax for it--so removes
 # punctionation, normalizes case, etc.
