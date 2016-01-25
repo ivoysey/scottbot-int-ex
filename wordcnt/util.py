@@ -3,6 +3,12 @@ import re
 import string
 import argparse
 import itertools
+import sys
+import signal
+
+#handler for sigint
+def ctrlc(signal, frame):
+    sys.exit(0)
 
 # takes a word and gives a canonical syntax for it--so removes
 # punctionation, normalizes case, etc.
@@ -27,11 +33,6 @@ def fexists (string):
     if not (os.path.isfile(string)):
         msg = "%r is not a valid file" % string
         raise argparse.ArgumentTypeError(msg)
-    return string
-
-# check if a string is an English noun
-def noun (string):
-    #TODO: use nltk here
     return string
 
 # increment a value in a dictionary or set it to 1 if it's not there.

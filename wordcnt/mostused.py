@@ -2,7 +2,10 @@ import re
 import argparse
 import itertools
 
-from util import clean , baseargs , incr , sortpl , opentext
+from util import clean , baseargs , incr , sortpl , opentext , ctrlc
+
+# deal with ctrl-c cleanly
+signal.signal(signal.SIGINT,ctrlc)
 
 # computes the k most-occuring pairs in a list of pairs, where the second
 # component is a number. assumes that 0 <= k <= |items|.n
