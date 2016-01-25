@@ -3,6 +3,7 @@ import sys
 import re
 import string
 import argparse
+import itertools
 
 ## this function takes a word and gives a canonical syntax for it--so
 ## removes punctionation, normalizes case, etc.
@@ -55,32 +56,61 @@ def nat (string) :
 #####################
 
 ## describe and parse arguments from the command line
-parser = argparse.ArgumentParser(description="Count the n most-used words in a corpus of English text")
-parser.add_argument("filename", help="path to the plain text file with the corpus to analyze")
+
+## TODO add some text here that describes assumptions about what words are
+parser = argparse.ArgumentParser(description="Count the n most-used words in a corpus of English text.")
+parser.add_argument("filename",
+                    help="path to the file with the corpus to analyze. " +
+                         "by default, assumed to be plain text.")
 parser.add_argument("-n" , "--number",
-                    help="number of most frequently used words to compute. defaults to 4.",
+                    help="number of most frequently used words to compute. "
+                          + "defaults to 4.",
                     type=nat,
                     default=4)
 parser.add_argument("-p" , "--pdf",
-                    help="treat the file as PDF rather than plain text. the results may be different depending on the quality of the PDF. default is false.",
+                    help="treat the file as PDF rather than plain text. the " +
+                         "results may be different depending on the quality " +
+                         "of the PDF. default is false. requires the package " +
+                         "pdfrw",
                     action="store_true",
                     default=False)
+parser.add_argument("-g", "--gutenberg",
+                    help="indicates that the file came from Project Gutenberg, " +
+                         "in which case we ignore their header and footer. this will only work when combined with the PDF option if we get a good parse, which isn't always the case",
+                    action="store_true",
+                    default=True)
 args = parser.parse_args()
 
-# open the file from the command line arguments or bail if we can't
-try:
-    f = open(args.filename, 'r')
-except IOError:
-    print 'Please supply a path to a real file'
+## get the text of the corpus from either a plain text or PDF file
+if args.pdf:
+    try:
+        from pdfxtract import pdf_to_text
+    except ImportError:
+        print 'reading from a PDF file requires that you install pdfminer'
+        exit(1)
+    corpus = (pdf_to_text(args.filename)).split("\n")
+else:
+    try:
+        corpus = open(args.filename, 'r')
+    except IOError:
+        print 'Please supply a path to a real file'
 
-if args.pdf == True:
-    print "aw crap"
-    exit(1)
+if args.gutenberg:
+    header = re.compile('START OF THIS PROJECT GUTENBERG EBOOK')
+    footer = re.compile('END OF THIS PROJECT GUTENBERG EBOOK')
+
+    drop = itertools.dropwhile(lambda x: header.matches(x),corpus)
+
+
 
 # traverse the whole file, adding canonical forms of valid words into a
-# dictionary counting the number of appearances
+# dictionary counting the number of appearances.
+#
+# if it's a PG book, look for the tags they insert and try to jump over
+# them. this will work on a text file; it may or may not work well on a PDF
+# from which we extract
 d = dict()
-for line in f:
+for line in corpus:
     ## get rid of ASCII em and en dashes before breaking into words, so
     ## each half is its own word
     line = (line.replace("---", " ")).replace("--", " ")
@@ -94,8 +124,11 @@ for line in f:
             # add or update words that do parse
             incr(clean_word,d)
 
-# all the interesting data is in the dict now, so free this up
-f.close()
+
+## if we're not reading from a PDF, we have to close the file handle once
+## we're done counting all the words
+if args.pdf == False:
+    corpus.close()
 
 ## TODO: finish using this to debug the string parsing stuff
 # for k, v in d.items():
