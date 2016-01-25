@@ -22,3 +22,10 @@ def clean (s):
 
     # otherwise, return lower case
     return s.lower()
+
+# check if a name points to an existant file
+def fexists (string):
+    if not (os.path.isfile(string)):
+        msg = "%r is not a valid file" % string
+        raise argparse.ArgumentTypeError(msg)
+    return string

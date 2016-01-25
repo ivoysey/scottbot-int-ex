@@ -5,7 +5,7 @@ import string
 import argparse
 import itertools
 
-from util import clean
+from util import clean , fexists
 
 # increment a value in a dictionary or set it to 1 if it's not there.
 def incr (word, d):
@@ -38,15 +38,6 @@ def nat (string) :
         msg = "%r is not a natural number" % string
         raise argparse.ArgumentTypeError(msg)
     return value
-
-# check if a name points to an existant file
-def fexists (string):
-    if not (os.path.isfile(string)):
-        msg = "%r is not a valid file" % string
-        raise argparse.ArgumentTypeError(msg)
-    return string
-
-
 
 #####################
 
