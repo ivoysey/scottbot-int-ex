@@ -60,6 +60,7 @@ total number of occurances: 9
 iev@leibniz wordcnt %
 ```
 and the pdf:
+```
 iev@leibniz wordcnt % python ./nounnearadjective.py -gpv input/11-pdf.pdf alice
 read in text
 created context index
