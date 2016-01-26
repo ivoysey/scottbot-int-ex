@@ -18,8 +18,8 @@ well-defined program, i've made a few assumptions.
    not six.
 
    non-sense words to write down sounds people make that maybe aren't
-   language, like "PLEUGH!" for spitting, but might not appear in a
-   dictionary are fine words for this question.
+   language (non-lexical vocables), like "PLEUGH!" for spitting, but might
+   not appear in a dictionary are fine words for this question.
 
  - "alice in wonderland" refers to the actual text of the book, not the
    metatext of a particular printing, such as copyright statements, project
