@@ -29,8 +29,6 @@ def nat (string) :
         raise argparse.ArgumentTypeError(msg)
     return value
 
-#####################
-
 ## describe and parse arguments from the command line
 parser = argparse.ArgumentParser(description="Count the n most-used words in" +
                                  "a corpus of English text.")

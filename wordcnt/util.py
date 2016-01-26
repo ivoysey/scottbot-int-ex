@@ -132,6 +132,7 @@ def opentext (ispdf , isguten , fname):
         # skip the first line, which still has the header in it. there's
         # also a footer above the footer in some older PG texts, but that's
         # hard to find so we don't try to
+
         take.next()
 
         return take
