@@ -5,8 +5,8 @@ a little unsurprisingly, the four most used words in this text of "alice in
 wonderland", ignoring the project gutenberg headers and footers, are "the",
 "and", "to", and "a".
 
-in the text version that gutenberg offers (11.txt), the counts that back up
-these claims are given by
+in the text version that gutenberg offers, the counts that back up these
+claims are given by
 
 ```
 iev@leibniz wordcnt % python mostused.py -g input/11.txt
