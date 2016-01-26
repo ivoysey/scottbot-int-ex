@@ -48,7 +48,9 @@ up parsing them.
 
 
 
-processing the text version:
+processing the text version (with the verbose flag, to get more output than
+just "9"):
+
 ```
 iev@leibniz wordcnt % python ./nounnearadjective.py -gv input/11.txt alice
 read in text
@@ -60,7 +62,7 @@ tagging contexts
 total number of occurances: 9
 iev@leibniz wordcnt %
 ```
-and the pdf:
+and the pdf (again with the verbose flag):
 ```
 iev@leibniz wordcnt % python ./nounnearadjective.py -gpv input/11-pdf.pdf alice
 read in text
