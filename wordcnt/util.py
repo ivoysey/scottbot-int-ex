@@ -88,7 +88,8 @@ def pdf_to_text(pdfname):
     # PDFMiner boilerplate
     rsrcmgr = PDFResourceManager()
     sio = StringIO()
-    codec = 'utf-8'
+    # codec = 'utf-8'
+    codec = 'ascii'
     laparams = LAParams()
     device = TextConverter(rsrcmgr, sio, codec=codec, laparams=laparams)
     interpreter = PDFPageInterpreter(rsrcmgr, device)
