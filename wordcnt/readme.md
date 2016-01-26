@@ -10,16 +10,16 @@ different things aren't present, though.
 This directory contains my solutions for the two tasks involving processing
 the text of "Alice in Wonderland". The files included are described below:
 
-* assumptions.txt
+* **assumptions.txt**
 
   discussion of some of the assumptions i made in the process of
   implementing solutions to the given tasks.
 
-* answers.md
+* **answers.md**
 
   the answers to the specific concrete questions stated in the description.
 
-* descr.txt
+* **descr.txt**
 
   description of the tasks, from email conversation with scott
 
