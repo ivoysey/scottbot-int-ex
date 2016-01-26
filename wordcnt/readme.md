@@ -10,14 +10,26 @@ different things aren't present, though.
 This directory contains my solutions for the two tasks involving processing
 the text of "Alice in Wonderland". The files included are described below:
 
-* **assumptions.txt**
+* **algo-toys/**
 
-  discussion of some of the assumptions i made in the process of
-  implementing solutions to the given tasks.
+  some code in other languages that i wrote while thinking about the
+  problems to figure out how i wanted to solve them. it's basically scratch
+  work. nothing in here should be assumed to be correct or even to compile.
+
+* **input/**
+
+  the inputs from project gutenberg stored locally, both in plain text and
+  PDF, and a text that i used for debugging both scripts.
 
 * **answers.md**
 
   the answers to the specific concrete questions stated in the description.
+
+* **assumptions.md**
+
+  discussion of some of the assumptions i made in the process of
+  implementing solutions to the given tasks, and some observations after
+  solving them.
 
 * **descr.txt**
 
@@ -39,7 +51,11 @@ the text of "Alice in Wonderland". The files included are described below:
 
   help message provides details about interaction.
 
-* **resources.txt**
+* readme.md
+
+  this file, which describes the other files
+
+* **resources.md**
 
   a description of websites and other things that i read in the process of
   writing the two scripts to solve the tasks presented.
@@ -50,13 +66,3 @@ the text of "Alice in Wonderland". The files included are described below:
   code that's used by both scripts, factored out into a utilities
   file. each function is documented interally and imported as needed in
   either place.
-
-* **algo-toys/**
-
-  some code in other languages that i wrote while thinking about the
-  problems to figure out how i wanted to solve them. it's basically scratch
-  work. nothing in here should be assumed to be correct or even to compile.
-
-* **input/**
-
-  the inputs from project gutenberg stored locally, both in plain text and

@@ -34,3 +34,12 @@ things aren't parsing correctly by the library.
 
 "alice" near adjectives
 =======================
+
+"alice" appears next to 9 different adjectives in the text. more
+interestingly, the adjectives that are used to describe alice are:
+
+this program takes a lot longer to run, about fifteen minutes on the full
+"alice" text, and pretty all the time is spent in calls to nltk for
+tagging. here the results don't seem to differ between parsing out the PDF
+or using the plain text file, probably because there are fewer adjectives
+in the text so there are fewer chances to mess up parsing them.
