@@ -1,3 +1,6 @@
+most used words
+===============
+
 the task statement leaves a few questions unanswered. in order to get a
 well-defined program, i've made a few assumptions.
 
@@ -87,13 +90,23 @@ after working through the solution, here are some thoughts about the answer:
    simpler to write and less hand-rolled even though it's slower.
 
 
+"alice" near adjectives
+=======================
 
-question says "how often does alice appear on either side of an
-adjective". i'm going to interpret that to mean "how many times does
-.. ". the other interpretation is "what percentage of times that a noun
-appears on either side of an adjective is that noun alice?" which is a
-different task. maybe write another script to do that, but that thing is
-going to take a super long time to run. this is bad enough, even only
-needing to tag some words; to do that you need to tag every single word in
-the text and then post-process the list. the post-processing is linear; the
-tagging is not.
+similarly, i made some assumptions about this question statement:
+
+ - the uestion says "how often does alice appear on either side of an
+   adjective". i'm going to interpret that to mean "how many times does
+   .. ".
+
+   the other reasonable interpretation is "what percentage of times that a
+   noun appears on either side of an adjective is that noun alice?" which
+   is a very different task that's a lot more computationally intensive,
+   because tagging is hard. this is bad enough, even only needing to tag
+   some words; to do that you need to tag every single word in the text and
+   then post-process the list. the post-processing is linear; the tagging
+   is not.
+
+ - nltk is absolutely the right tool here; i have no idea how to do POS
+   tagging and you can't get around it to complete this task, so it's well
+   worth the overhead.
