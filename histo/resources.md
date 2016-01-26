@@ -13,4 +13,5 @@ for these tasks. here are the main ones:
 - the heroku start up docs, largely from
   https://devcenter.heroku.com/articles/getting-started-with-nodejs
 
-- the d3.js docs, at https://github.com/mbostock/d3/wiki
+- the d3.js docs, at https://github.com/mbostock/d3/wiki, and
+  http://bl.ocks.org/mbostock/3048450 for histogram examples
