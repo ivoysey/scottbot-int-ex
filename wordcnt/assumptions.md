@@ -57,6 +57,9 @@ after working through the solution, here are some thoughts about the answer:
    results to get only "interesting words" and take something on the
    command line to swap in different ignore lists or similar.
 
+   curating the list of "interesting words" is really hard, though, so i
+   don't try to do it. that's more of a philosophical decision.
+
  - it's pretty hard to curate a list of things to ignore; that's a big
    design decision that i'm not sure how i would make and would want to
    talk to people with. really depends on what the tool would be used
@@ -94,6 +97,9 @@ after working through the solution, here are some thoughts about the answer:
 =======================
 
 similarly, i made some assumptions about this question statement:
+
+ - the same assumptions about what the "text" is and PDF considerations
+   from above apply here, as well.
 
  - the uestion says "how often does alice appear on either side of an
    adjective". i'm going to interpret that to mean "how many times does
