@@ -51,7 +51,7 @@ the text of "Alice in Wonderland". The files included are described below:
 
   help message provides details about interaction.
 
-* readme.md
+* **readme.md**
 
   this file, which describes the other files
 

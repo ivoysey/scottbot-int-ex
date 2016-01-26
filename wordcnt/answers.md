@@ -39,7 +39,34 @@ things aren't parsing correctly by the library.
 interestingly, the adjectives that are used to describe alice are:
 
 this program takes a lot longer to run, about fifteen minutes on the full
-"alice" text, and pretty all the time is spent in calls to nltk for
-tagging. here the results don't seem to differ between parsing out the PDF
-or using the plain text file, probably because there are fewer adjectives
-in the text so there are fewer chances to mess up parsing them.
+"alice" text depending on other system use, and pretty all the time is
+spent in calls to nltk for tagging. here the results don't seem to differ
+between parsing out the PDF or using the plain text file, probably because
+there are fewer adjectives in the text so there are fewer chances to mess
+up parsing them.
+
+
+
+processing the text version:
+```
+iev@leibniz wordcnt % python ./nounnearadjective.py -gv input/11.txt alice
+read in text
+created context index
+created common contexts
+tagging contexts
+|#############################################################| (Time: 0:14:58)
+{'poor': 5, 'little': 3, 'foolish': 1}
+total number of occurances: 9
+iev@leibniz wordcnt %
+```
+and the pdf:
+iev@leibniz wordcnt % python ./nounnearadjective.py -gpv input/11-pdf.pdf alice
+read in text
+created context index
+created common contexts
+tagging contexts
+|#############################################################| (Time: 0:14:32)
+{'poor': 5, 'little': 3, 'foolish': 1}
+total number of occurances: 9
+iev@leibniz wordcnt %
+```
