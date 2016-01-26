@@ -36,7 +36,8 @@ things aren't parsing correctly by the library.
 =======================
 
 "alice" appears next to 9 different adjectives in the text. more
-interestingly, the adjectives that are used to describe alice are:
+interestingly, the adjectives that are used to describe alice are: "poor",
+"little", "foolish".
 
 this program takes a lot longer to run, about fifteen minutes on the full
 "alice" text depending on other system use, and pretty all the time is
