@@ -1,5 +1,11 @@
 Some features that this site doesn't currently have and probably should:
 
+- figure out how to actually update the database when you ask users for
+  their sign in data (not sure how to do this)
+
+- update the source of the data for the histogram so that it queries the
+  database (should be easy)
+
 - checking to see that the email address is actual an email address
 
 - checking the password for strength and enforcing some sort of policy
