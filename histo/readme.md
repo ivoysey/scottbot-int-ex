@@ -1,6 +1,10 @@
 this directory contains code and meta data about the website implementation
 task. the website is viewable at
-http://thawing-mesa-24911.herokuapp.com/. it does not provide all the
+http://thawing-mesa-24911.herokuapp.com/. the source code is readable at
+https://github.com/ivoysey/histo
+
+
+it does not provide all the
 functionality that the description asks for; the things that are missing
 are detailed in future.md.
 

@@ -1,7 +1,9 @@
 Some features that this site doesn't currently have and probably should:
 
-- figure out how to actually update the database when you ask users for
-  their sign in data (not sure how to do this)
+- make the input of the age thing date of birth, not a string, so you can
+  check the current date at the time of render and move points in the
+  histogram as they change over time. also hygene check the input of the
+  DOB; limit it to
 
 - update the source of the data for the histogram so that it queries the
   database (should be easy)
